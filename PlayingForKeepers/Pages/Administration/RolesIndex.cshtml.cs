@@ -34,26 +34,5 @@ namespace PlayingForKeepers.Pages.Administration
         }
         #endregion
 
-
-
-        #region OnPost method
-        public async Task<IActionResult> OnPostAsync(string id)
-        {
-            var role = await RoleManager.FindByIdAsync(id);
-
-            if (ModelState.IsValid)
-            {
-                var result = await RoleManager.DeleteAsync(role);
-
-
-                foreach (IdentityError error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-
-            return Page();
-        }
-        #endregion
     }
 }
