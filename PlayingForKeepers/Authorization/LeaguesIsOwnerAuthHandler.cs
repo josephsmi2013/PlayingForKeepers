@@ -9,16 +9,24 @@ namespace PlayingForKeepers.Authorization
 {
     public class LeaguesIsOwnerAuthHandler : AuthorizationHandler<OperationAuthorizationRequirement, FF_Leagues>
     {
-        UserManager<IdentityUser> _userManager;
+        #region public properties
+        public UserManager<IdentityUser> _userManager { get; set; }
+        #endregion
 
+
+
+        #region  constructor method
         public LeaguesIsOwnerAuthHandler(UserManager<IdentityUser>
             userManager)
         {
             _userManager = userManager;
         }
+        #endregion
 
-        protected override Task
-            HandleRequirementAsync(AuthorizationHandlerContext context,
+
+
+        #region method to handle authorization requirement
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                    OperationAuthorizationRequirement requirement,
                                    FF_Leagues resource)
         {
@@ -46,5 +54,6 @@ namespace PlayingForKeepers.Authorization
 
             return Task.CompletedTask;
         }
+        #endregion
     }
 }

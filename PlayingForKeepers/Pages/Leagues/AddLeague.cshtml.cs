@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using PlayingForKeepers.Authorization;
+using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Leagues
 {
-    public class CreateLeagueModel : DI_BasePageModel
+    public class AddLeagueModel : DI_BasePageModel
     {
 
         #region Public Properties   
@@ -19,8 +20,8 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
         #region Constructor method
-        public CreateLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
-            : base(context, authorizationService, userManager)
+        public AddLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            : base(context, authorizationService, userManager, roleManager)
         {
         }
         #endregion
@@ -38,7 +39,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
 
-        #region OnPost method.
+        #region OnPost method
         //Submits the CreateLeague form data    
         public async Task<IActionResult> OnPostAsync()
         {
@@ -51,26 +52,32 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
             // Settings
-            string returnPath = "./Index";
+            string returnPath = "./LeaguesIndex";
+
             string leagueName = AddLeague.LeagueName;
             int legueTeamsPossible = AddLeague.LeagueTeamsPossible;
+
             int charCounter = UserManager.GetUserName(User).IndexOf("@");
             string leagueOwner = UserManager.GetUserName(User).Substring(0, charCounter);
+
             LeagueStatusListSP leagueStatus = LeagueStatusListSP.Approved;
 
+            if(ModelState.IsValid)
+            {
+                bool success = await Context.AddLeague(leagueName, legueTeamsPossible, leagueOwner, leagueStatus);
 
-            // requires using PlayingForKeepers.Authorization;
-            //var isAuthorized = await AuthorizationService.AuthorizeAsync(User, AddLeague, LeaguesOperations.Create);
+                if(success)
+                {
+                    return RedirectToPage(returnPath);
+                }
 
-            //if (!isAuthorized.Succeeded)
-            //{
-            //    return new ChallengeResult();
-            //}
+                ModelState.AddModelError("", "League name already exists");
+            }
 
-            await Context.AddLeague(leagueName, legueTeamsPossible, leagueOwner, leagueStatus);
 
-            return RedirectToPage(returnPath);
+           
 
+            return Page();
         }
         #endregion
     }

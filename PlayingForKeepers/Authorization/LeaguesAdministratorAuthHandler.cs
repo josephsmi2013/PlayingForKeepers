@@ -7,10 +7,9 @@ namespace PlayingForKeepers.Authorization
 {
     public class LeaguesAdministratorAuthHandler : AuthorizationHandler<OperationAuthorizationRequirement, FF_Leagues>
     {
-        protected override Task HandleRequirementAsync(
-                                              AuthorizationHandlerContext context,
-                                    OperationAuthorizationRequirement requirement,
-                                     FF_Leagues resource)
+
+        #region method to handle authorization requirement
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, FF_Leagues resource)
         {
             if (context.User == null)
             {
@@ -25,5 +24,6 @@ namespace PlayingForKeepers.Authorization
 
             return Task.CompletedTask;
         }
+        #endregion
     }
 }

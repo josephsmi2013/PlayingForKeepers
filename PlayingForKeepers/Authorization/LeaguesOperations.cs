@@ -4,6 +4,7 @@ namespace PlayingForKeepers.Authorization
 {
     public class LeaguesOperations
     {
+        #region public properties
         public static OperationAuthorizationRequirement Create =
           new OperationAuthorizationRequirement { Name = Constants.CreateOperationName };
         public static OperationAuthorizationRequirement Read =
@@ -16,10 +17,14 @@ namespace PlayingForKeepers.Authorization
           new OperationAuthorizationRequirement { Name = Constants.ApproveOperationName };
         public static OperationAuthorizationRequirement Reject =
           new OperationAuthorizationRequirement { Name = Constants.RejectOperationName };
+        #endregion
     }
+
+
 
     public class Constants
     {
+        #region public properties
         public static readonly string CreateOperationName = "Create";
         public static readonly string ReadOperationName = "Read";
         public static readonly string UpdateOperationName = "Update";
@@ -29,5 +34,6 @@ namespace PlayingForKeepers.Authorization
 
         public static readonly string LeaguesAdministratorRole = "LeaguesAdministrator";
         public static readonly string LeaguesManagerRole = "LeaguesManager";
+        #endregion
     }
 }

@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using PlayingForKeepers.Authorization;
-
-
+using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Leagues
 {
-    public class IndexModel : DI_BasePageModel
+    public class LeaguesIndexModel : DI_BasePageModel
     {
 
         #region Public Properties   
@@ -22,8 +21,8 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
         #region Constructor method
-        public IndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
-            : base(context, authorizationService, userManager)
+        public LeaguesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            : base(context, authorizationService, userManager, roleManager)
         {
         }
         #endregion
