@@ -36,9 +36,9 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region OnGet method
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(string roleId)
         {            
-            var role = await RoleManager.FindByIdAsync(id);
+            var role = await RoleManager.FindByIdAsync(roleId);
 
             RoleId = role.Id;
             RoleName = role.Name;
@@ -47,7 +47,7 @@ namespace PlayingForKeepers.Pages.Administration
             {
                 if(await UserManager.IsInRoleAsync(user, role.Name))
                 {
-                    this.Users.Add(user.UserName);
+                    Users.Add(user.UserName);
                 }
             }
 
@@ -58,10 +58,10 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region OnPost method
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync(string roleId)
         {
             string returnPath = "./RolesIndex";
-            var role = await RoleManager.FindByIdAsync(id);
+            var role = await RoleManager.FindByIdAsync(roleId);
 
             if (ModelState.IsValid)
             {

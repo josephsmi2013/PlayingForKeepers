@@ -14,7 +14,7 @@ namespace PlayingForKeepers.Pages.Administration
 
         #region Public Properties   
         [BindProperty]
-        public List<IdentityRole> GetRoles { get; set; }
+        public List<IdentityRole> Roles { get; set; }
         #endregion
 
 
@@ -30,7 +30,7 @@ namespace PlayingForKeepers.Pages.Administration
         #region OnGet method
         public void OnGet()
         {
-            GetRoles = RoleManager.Roles.ToList();
+            Roles = RoleManager.Roles.ToList();
         }
         #endregion
 
