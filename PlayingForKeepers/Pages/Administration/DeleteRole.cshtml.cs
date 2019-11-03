@@ -11,9 +11,10 @@ using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Administration
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     public class DeleteRoleModel : DI_BasePageModel
     {
-
         #region contructor method
         public DeleteRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)

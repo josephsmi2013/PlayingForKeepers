@@ -9,11 +9,11 @@ using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Leagues
 {
+    [Authorize(Roles = "User")]
+    [BindProperties]
     public class AddLeagueModel : DI_BasePageModel
     {
-
         #region Public Properties   
-        [BindProperty]
         public FF_AddLeague AddLeague { get; set; }
         #endregion
 

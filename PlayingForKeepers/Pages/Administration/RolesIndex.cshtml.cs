@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
+    [BindProperties]
     public class RolesIndexModel : DI_BasePageModel
     {
-
         #region Public Properties   
-        [BindProperty]
         public List<IdentityRole> Roles { get; set; }
         #endregion
 

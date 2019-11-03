@@ -11,6 +11,8 @@ using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Administration
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [BindProperties]
     public class AddUserRoleModel : DI_BasePageModel
     {

@@ -10,11 +10,11 @@ using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Leagues
 {
+    [Authorize(Roles = "User")]
+    [BindProperties]
     public class LeaguesIndexModel : DI_BasePageModel
     {
-
         #region Public Properties   
-        [BindProperty]
         public List<FF_GetLeagues> GetLeagues { get; set; }
         #endregion
 

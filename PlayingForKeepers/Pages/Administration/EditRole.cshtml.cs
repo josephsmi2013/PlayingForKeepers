@@ -12,10 +12,11 @@ using PlayingForKeepers.Pages.Shared;
 
 namespace PlayingForKeepers.Pages.Administration
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [BindProperties]
     public class EditRoleModel : DI_BasePageModel
     {
-
         #region public properties        
         public string RoleId { get; set; }
         public string RoleName { get; set; }    
