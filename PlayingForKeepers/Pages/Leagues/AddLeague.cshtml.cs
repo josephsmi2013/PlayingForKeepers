@@ -41,15 +41,8 @@ namespace PlayingForKeepers.Pages.Leagues
 
         #region OnPost method
         //Submits the CreateLeague form data    
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAddLeagueAsync()
         {
-
-            // Verification
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
 
             // Settings
             string returnPath = "./LeaguesIndex";
@@ -72,10 +65,7 @@ namespace PlayingForKeepers.Pages.Leagues
                 }
 
                 ModelState.AddModelError("", "League name already exists");
-            }
-
-
-           
+            }           
 
             return Page();
         }

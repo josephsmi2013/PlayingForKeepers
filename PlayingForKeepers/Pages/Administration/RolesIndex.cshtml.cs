@@ -15,7 +15,7 @@ namespace PlayingForKeepers.Pages.Administration
     public class RolesIndexModel : DI_BasePageModel
     {
         #region Public Properties   
-        public List<IdentityRole> Roles { get; set; }
+        public List<IdentityRole> Roles { get; set; } = new List<IdentityRole>();
         #endregion
 
 
@@ -32,6 +32,42 @@ namespace PlayingForKeepers.Pages.Administration
         public void OnGet()
         {
             Roles = RoleManager.Roles.ToList();
+        }
+        #endregion
+
+
+
+        #region DeleteRoleAsync method
+        public async Task<IActionResult> OnPostDeleteRoleAsync(string roleId)
+        {
+            string returnPath = "./RolesIndex";
+            var role = await RoleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"Role with Id =  {roleId} cannot be found";
+                return Page();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var result = await RoleManager.DeleteAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToPage(returnPath);
+                    }
+
+
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+
+            return Page();
         }
         #endregion
 

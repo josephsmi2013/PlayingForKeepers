@@ -28,18 +28,8 @@ namespace PlayingForKeepers.Pages.Administration
 
 
 
-        #region OnGet method
-        public IActionResult OnGet()
-        {
-
-            return Page();
-        }
-        #endregion
-
-
-
         #region OnPost method
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAddRoleAsync()
         {
             string returnPath = "./RolesIndex";
 

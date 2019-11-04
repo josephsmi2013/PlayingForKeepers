@@ -17,8 +17,8 @@ namespace PlayingForKeepers.Pages.Administration
     public class AddUserRoleModel : DI_BasePageModel
     {
         #region Public Properties   
-        public List<IdentityUser> GetUsers { get; set; }
-        public List<bool> IsSelected { get; set; }
+        public List<IdentityUser> GetUsers { get; set; } = new List<IdentityUser>();
+        public List<bool> IsSelected { get; set; } = new List<bool>();
         public string RoleId { get; set; }
         #endregion
 
@@ -28,64 +28,76 @@ namespace PlayingForKeepers.Pages.Administration
         public AddUserRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
-            GetUsers = new List<IdentityUser>();
-            IsSelected = new List<bool>();
-
         }
         #endregion
 
 
         #region OnGet method
         //Gets users not already assigned to the role
-        public async Task OnGetAsync(string roleId)
+        public async Task<IActionResult> OnGetAsync(string roleId)
         {
             RoleId = roleId;
             IdentityRole role = await RoleManager.FindByIdAsync(RoleId);
- 
 
-            foreach(IdentityUser user in UserManager.Users)
+            if (role == null)
             {
-                if(!await UserManager.IsInRoleAsync(user, role.Name))
-                {
-                    GetUsers.Add(user);
-                    IsSelected.Add(false);
-                }
-
+                ViewData["ErrorMessage"] = $"Role with Id =  {roleId} cannot be found";
+                return Page();
             }
+            else
+            {
+                foreach (IdentityUser user in UserManager.Users)
+                {
+                    if (!await UserManager.IsInRoleAsync(user, role.Name))
+                    {
+                        GetUsers.Add(user);
+                        IsSelected.Add(false);
+                    }
+
+                }
+            }
+
+            return Page();
         }
         #endregion
 
 
 
         #region OnPost method
-        public async Task<IActionResult> OnPostAsync(string roleId)
+        public async Task<IActionResult> OnPostAddUserRoleAsync(string roleId)
         {
             string returnPath = "./EditRole";
             IdentityRole role = await RoleManager.FindByIdAsync(roleId);
 
-            if (ModelState.IsValid)
+            if (role == null)
             {
-
-                for(int i = 0; i < IsSelected.Count; i++)
+                ViewData["ErrorMessage"] = $"Role with Id =  {roleId} cannot be found";
+                return Page();
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    if(IsSelected[i])
+                    for (int i = 0; i < IsSelected.Count; i++)
                     {
-                        IdentityUser user = await UserManager.FindByIdAsync(GetUsers[i].Id);
-                        IdentityResult result = await UserManager.AddToRoleAsync(user, role.Name);
-
-                        foreach (IdentityError error in result.Errors)
+                        if (IsSelected[i])
                         {
-                            ModelState.AddModelError("", error.Description);
+                            IdentityUser user = await UserManager.FindByIdAsync(GetUsers[i].Id);
+                            IdentityResult result = await UserManager.AddToRoleAsync(user, role.Name);
+
+                            foreach (IdentityError error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
                         }
-
                     }
-                }
 
-                if (ModelState.ErrorCount == 0)
-                {
-                    return RedirectToPage(returnPath, new { roleId = roleId });
-                }
+                    if (ModelState.ErrorCount == 0)
+                    {
+                        return RedirectToPage(returnPath, new { roleId = roleId });
+                    }
 
+                }
             }
 
             return Page();

@@ -31,9 +31,16 @@ namespace PlayingForKeepers.Pages.Leagues
 
         #region OnGet method
         //Get Leagues into a list and returns to the page
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             GetLeagues = await this.Context.GetLeaguesAsync();
+
+            if (GetLeagues == null)
+            {
+                ViewData["ErrorMessage"] = $"No leagues have been found";
+            }
+
+            return Page();
         }
         #endregion
     }
