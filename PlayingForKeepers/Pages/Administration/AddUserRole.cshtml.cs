@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
 {
     [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "User")]
     [BindProperties]
     public class AddUserRoleModel : DI_BasePageModel
     {
         #region Public Properties   
-        public List<IdentityUser> GetUsers { get; set; } = new List<IdentityUser>();
+        public List<ApplicationUser> GetUsers { get; set; } = new List<ApplicationUser>();
         public List<bool> IsSelected { get; set; } = new List<bool>();
         public string RoleId { get; set; }
         #endregion
@@ -25,7 +22,7 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region contructor method
-        public AddUserRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AddUserRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
         }
@@ -46,7 +43,7 @@ namespace PlayingForKeepers.Pages.Administration
             }
             else
             {
-                foreach (IdentityUser user in UserManager.Users)
+                foreach (ApplicationUser user in UserManager.Users)
                 {
                     if (!await UserManager.IsInRoleAsync(user, role.Name))
                     {
@@ -82,7 +79,7 @@ namespace PlayingForKeepers.Pages.Administration
                     {
                         if (IsSelected[i])
                         {
-                            IdentityUser user = await UserManager.FindByIdAsync(GetUsers[i].Id);
+                            ApplicationUser user = await UserManager.FindByIdAsync(GetUsers[i].Id);
                             IdentityResult result = await UserManager.AddToRoleAsync(user, role.Name);
 
                             foreach (IdentityError error in result.Errors)

@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using PlayingForKeepers.Models.DB.Tables;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using PlayingForKeepers.Models.DB.Tables;
+using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Authorization
 {

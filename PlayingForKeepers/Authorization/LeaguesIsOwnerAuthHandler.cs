@@ -1,22 +1,22 @@
-﻿using System.Threading.Tasks;
-using PlayingForKeepers.Data;
-using PlayingForKeepers.Models.DB.Tables;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using PlayingForKeepers.Models;
+using PlayingForKeepers.Models.DB.Tables;
+using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Authorization
 {
     public class LeaguesIsOwnerAuthHandler : AuthorizationHandler<OperationAuthorizationRequirement, FF_Leagues>
     {
         #region public properties
-        public UserManager<IdentityUser> _userManager { get; set; }
+        public UserManager<ApplicationUser> _userManager { get; set; }
         #endregion
 
 
 
         #region  constructor method
-        public LeaguesIsOwnerAuthHandler(UserManager<IdentityUser>
+        public LeaguesIsOwnerAuthHandler(UserManager<ApplicationUser>
             userManager)
         {
             _userManager = userManager;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.Threading.Tasks;
 namespace PlayingForKeepers.Pages.Administration
 {
     [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "User")]
     [BindProperties]
     public class RolesIndexModel : DI_BasePageModel
     {
@@ -20,7 +20,7 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region contructor method
-        public RolesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
         }

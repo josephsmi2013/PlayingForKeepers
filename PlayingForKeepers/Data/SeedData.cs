@@ -1,11 +1,10 @@
-﻿using PlayingForKeepers.Authorization;
-using PlayingForKeepers.Models.DB;
-using PlayingForKeepers.Models.DB.Tables;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PlayingForKeepers.Authorization;
+using PlayingForKeepers.Models;
+using PlayingForKeepers.Models.DB;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 // dotnet aspnet-codegenerator razorpage -m Contact -dc ApplicationDbContext -udl -outDir Pages\Contacts --referenceScriptLibraries
@@ -39,12 +38,12 @@ namespace PlayingForKeepers.Data
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
                                             string testUserPw, string UserName)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser
+                user = new ApplicationUser
                 {
                     UserName = UserName,
                     EmailConfirmed = true
@@ -76,7 +75,7 @@ namespace PlayingForKeepers.Data
                 IR = await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             var user = await userManager.FindByIdAsync(uid);
 
@@ -117,26 +116,26 @@ namespace PlayingForKeepers.Data
             //        LeagueStatus = LeagueStatusList.Approved
 
             //    }
-                //,
-                //new FF_Leagues
-                //{
-                //    LeagueName = "League JKL",
-                //    LeagueTeamsUsed = 0,
-                //    LeagueTeamsPossible = 10,
-                //    LeagueOwnerID = adminID,
-                //    LeagueStatus = LeagueStatusList.Rejected
+            //,
+            //new FF_Leagues
+            //{
+            //    LeagueName = "League JKL",
+            //    LeagueTeamsUsed = 0,
+            //    LeagueTeamsPossible = 10,
+            //    LeagueOwnerID = adminID,
+            //    LeagueStatus = LeagueStatusList.Rejected
 
-                //},
-                //new FF_Leagues
-                //{
-                //    LeagueName = "League MNO",
-                //    LeagueTeamsUsed = 0,
-                //    LeagueTeamsPossible = 10,
-                //    LeagueOwnerID = adminID,
-                //    LeagueStatus = LeagueStatusList.Submitted
+            //},
+            //new FF_Leagues
+            //{
+            //    LeagueName = "League MNO",
+            //    LeagueTeamsUsed = 0,
+            //    LeagueTeamsPossible = 10,
+            //    LeagueOwnerID = adminID,
+            //    LeagueStatus = LeagueStatusList.Submitted
 
-                //}
-                //);
+            //}
+            //);
             //context.SaveChanges();
         }
 

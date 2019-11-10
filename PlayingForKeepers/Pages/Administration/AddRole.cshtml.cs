@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
+using System.Threading.Tasks;
 
 
 namespace PlayingForKeepers.Pages.Administration
 {
-    [Authorize(Roles ="Admin")]
-    [Authorize(Roles ="User")]
+    [Authorize(Roles = "Admin")]
     [BindProperties]
     public class AddRoleModel : DI_BasePageModel
     {
@@ -20,7 +20,7 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region Constructor method
-        public AddRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AddRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
         }
@@ -41,18 +41,18 @@ namespace PlayingForKeepers.Pages.Administration
                     Name = RoleName
                 };
 
-                IdentityResult result = await RoleManager.CreateAsync(identityRole);  
-                
-                if(result.Succeeded)
+                IdentityResult result = await RoleManager.CreateAsync(identityRole);
+
+                if (result.Succeeded)
                 {
                     return RedirectToPage(returnPath);
                 }
 
-                foreach(IdentityError error in result.Errors)
+                foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-            }            
+            }
 
             return Page();
         }

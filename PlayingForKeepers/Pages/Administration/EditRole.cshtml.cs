@@ -1,33 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
 {
     [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "User")]
     [BindProperties]
     public class EditRoleModel : DI_BasePageModel
     {
         #region public properties        
         public string RoleId { get; set; }
-        public string RoleName { get; set; }    
-        
+        public string RoleName { get; set; }
+
         public List<string> Users { get; set; } = new List<string>();
         #endregion
 
 
 
         #region Constructor method
-        public EditRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public EditRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
         }
@@ -37,7 +33,7 @@ namespace PlayingForKeepers.Pages.Administration
 
         #region OnGet method
         public async Task<IActionResult> OnGetAsync(string roleId)
-        {            
+        {
             var role = await RoleManager.FindByIdAsync(roleId);
 
             if (role == null)

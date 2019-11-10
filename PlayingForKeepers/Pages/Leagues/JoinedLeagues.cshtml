@@ -1,0 +1,63 @@
+﻿@page
+@model PlayingForKeepers.Pages.Leagues.JoinedLeaguesModel
+@{
+    ViewData["Title"] = "JoinedLeagues";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@* Link to create a new league HTML *@
+<p>
+    <a asp-page="AddLeague">Add League</a>
+</p>
+
+
+@* Display tabbed navs HTML*@
+<div class="row">
+    <div class="col m-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="./LeaguesIndex">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="./JoinedLeagues">Joined</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+@* Display all leagues HTML *@
+
+<form method="post">
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="text-align: center;">Action</th>
+                    <th scope="col" style="text-align: center;">League ID</th>
+                    <th scope="col" style="text-align: center;">Name</th>
+                    <th scope="col" style="text-align: center;">Teams Used</th>
+                    <th scope="col" style="text-align: center;">Teams Possible</th>
+                    <th scope="col" style="text-align: center;">Owner ID</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.GetJoinedLeagues.Count; i++)
+                {
+                    <tr>
+                        <th scope="row" style="text-align: center;">
+                            <a class="btn btn-secondary" asp-page="LeagueDetails" asp-route-roleId="@Model.GetJoinedLeagues[i].LeagueID">Visit</a>
+                            <input class="btn btn-danger" asp-page-handler="RemoveJoinedLeague" asp-route-leagueId="@Model.GetJoinedLeagues[i].LeagueID" type="submit" value="Remove" />
+                        </th>
+                        <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueID</td>
+                        <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueName</td>
+                        <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueTeamsUsed </td>
+                        <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueTeamsPossible </td>
+                        <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueOwnerID </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>

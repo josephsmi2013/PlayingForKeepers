@@ -1,21 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using PlayingForKeepers.Data;
-using PlayingForKeepers.Models.DB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authorization;
 using PlayingForKeepers.Authorization;
+using PlayingForKeepers.Models;
+using PlayingForKeepers.Models.DB;
 
 namespace PlayingForKeepers
 {
@@ -35,7 +29,7 @@ namespace PlayingForKeepers
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PlayingForKeepersDbContext>();
 
@@ -44,8 +38,9 @@ namespace PlayingForKeepers
             services.AddControllers(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
-                                 .RequireAuthenticatedUser()
-                                 .Build();
+                    .RequireAuthenticatedUser()
+                    .Build();
+
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 

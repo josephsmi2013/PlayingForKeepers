@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PlayingForKeepers.Models.DB.Tables
+﻿namespace PlayingForKeepers.Models.DB.Tables
 {
     public partial class AspNetUserRoles
     {

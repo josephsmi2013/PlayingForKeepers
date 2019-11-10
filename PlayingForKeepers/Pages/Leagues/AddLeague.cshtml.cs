@@ -1,26 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PlayingForKeepers.Models.DB.Stored_Procs;
-using PlayingForKeepers.Models.DB;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using PlayingForKeepers.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PlayingForKeepers.Models;
+using PlayingForKeepers.Models.DB;
+using PlayingForKeepers.Models.DB.Tables;
 using PlayingForKeepers.Pages.Shared;
+using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Leagues
 {
-    [Authorize(Roles = "User")]
+    [Authorize]
     [BindProperties]
     public class AddLeagueModel : DI_BasePageModel
     {
         #region Public Properties   
-        public FF_AddLeague AddLeague { get; set; }
+        public FF_Leagues AddLeague { get; set; }
         #endregion
 
 
 
         #region Constructor method
-        public AddLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AddLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
             : base(context, authorizationService, userManager, roleManager)
         {
         }
@@ -53,19 +53,19 @@ namespace PlayingForKeepers.Pages.Leagues
             int charCounter = UserManager.GetUserName(User).IndexOf("@");
             string leagueOwner = UserManager.GetUserName(User).Substring(0, charCounter);
 
-            LeagueStatusListSP leagueStatus = LeagueStatusListSP.Approved;
+            LeagueStatusList leagueStatus = LeagueStatusList.Approved;
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 bool success = await Context.AddLeague(leagueName, legueTeamsPossible, leagueOwner, leagueStatus);
 
-                if(success)
+                if (success)
                 {
                     return RedirectToPage(returnPath);
                 }
 
                 ModelState.AddModelError("", "League name already exists");
-            }           
+            }
 
             return Page();
         }

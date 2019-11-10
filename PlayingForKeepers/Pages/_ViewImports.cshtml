@@ -1,5 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using PlayingForKeepers
 @using PlayingForKeepers.Data
+@using PlayingForKeepers.Models
 @namespace PlayingForKeepers.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<ApplicationUser> signInManager;
