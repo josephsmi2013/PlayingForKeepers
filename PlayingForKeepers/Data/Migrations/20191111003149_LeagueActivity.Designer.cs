@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlayingForKeepers.Models.DB;
 
 namespace PlayingForKeepers.Data.Migrations
 {
     [DbContext(typeof(PlayingForKeepersDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191111003149_LeagueActivity")]
+    partial class LeagueActivity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,20 +226,24 @@ namespace PlayingForKeepers.Data.Migrations
 
             modelBuilder.Entity("PlayingForKeepers.Models.DB.Tables.FF_LeagueActivity", b =>
                 {
+                    b.Property<int>("LeagueActivityID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<DateTime>("LeagueActivityDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LeagueActivityDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LeagueActivityID")
-                        .HasColumnType("int");
-
                     b.Property<int>("LeagueActivityType")
                         .HasColumnType("int");
 
                     b.Property<int>("LeagueID")
                         .HasColumnType("int");
+
+                    b.HasKey("LeagueActivityID");
 
                     b.ToTable("FF_LeagueActivity");
                 });

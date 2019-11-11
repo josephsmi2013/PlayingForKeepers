@@ -1,0 +1,65 @@
+﻿@page
+@model PlayingForKeepers.Pages.Leagues.LeagueDetailsModel
+@{
+    ViewData["Title"] = "LeagueDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">Activity ID</th>
+                            <th scope="col" style="text-align: center;">Activity Description</th>
+                            <th scope="col" style="text-align: center;">Activity Date</th>
+                            <th scope="col" style="text-align: center;">Activity Type</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityID</td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div> 
+        </div>
+        <div class="col-lg">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">Activity ID</th>
+                            <th scope="col" style="text-align: center;">Activity Description</th>
+                            <th scope="col" style="text-align: center;">Activity Date</th>
+                            <th scope="col" style="text-align: center;">Activity Type</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityID</td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
+                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

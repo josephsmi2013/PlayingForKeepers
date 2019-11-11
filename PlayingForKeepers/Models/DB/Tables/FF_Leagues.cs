@@ -13,10 +13,10 @@ namespace PlayingForKeepers.Models.DB.Tables
         public string LeagueOwnerID { get; set; }
 
         [NotMapped]
-        public LeagueStatusList LeagueStatus { get; set; }
+        public LeagueStatus LeagueStatus { get; set; }
     }
 
-    public enum LeagueStatusList
+    public enum LeagueStatus
     {
         Submitted,
         Approved,

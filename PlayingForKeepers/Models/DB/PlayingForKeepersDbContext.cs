@@ -39,13 +39,16 @@ namespace PlayingForKeepers.Models.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<FF_LeagueActivity>().HasNoKey();
+
         }
         #endregion
 
 
         #region AddLeague SP method  
         // Adds a league and returns a bool to the caller 
-        public Task<bool> AddLeague(string leagueName, int leagueTeamsPossible, string leagueOwnerID, LeagueStatusList leagueStatus)
+        public Task<bool> AddLeague(string leagueName, int leagueTeamsPossible, string leagueOwnerID, LeagueStatus leagueStatus)
         {
 
             //Initialize
@@ -164,6 +167,32 @@ namespace PlayingForKeepers.Models.DB
 
         }
         #endregion
+
+
+        #region GetLeaguesAsync SP method
+        // Gets a list of leagues and returns to the caller
+        public async Task<List<FF_LeagueActivity>> GetLeagueActivityAsync(int leagueId)
+        {
+            // Initialization.  
+            List<FF_LeagueActivity> lst = new List<FF_LeagueActivity>();
+
+            try
+            {
+                // Processing. 
+                SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+                string sqlQuery = "EXEC [dbo].[FF_GetLeagueActivity] " + "@LeagueId";
+
+                lst = await this.Set<FF_LeagueActivity>().FromSqlRaw(sqlQuery, inputParam1).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // Info.  
+            return lst;
+        }
+        #endregion  
 
     }
 }

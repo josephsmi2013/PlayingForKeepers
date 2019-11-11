@@ -53,7 +53,7 @@ namespace PlayingForKeepers.Pages.Leagues
             int charCounter = UserManager.GetUserName(User).IndexOf("@");
             string leagueOwner = UserManager.GetUserName(User).Substring(0, charCounter);
 
-            LeagueStatusList leagueStatus = LeagueStatusList.Approved;
+            LeagueStatus leagueStatus = LeagueStatus.Approved;
 
             if (ModelState.IsValid)
             {

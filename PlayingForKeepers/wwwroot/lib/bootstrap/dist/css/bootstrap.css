@@ -6223,15 +6223,15 @@ a.close.disabled {
 }
 
 .carousel-inner {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
 }
 
 .carousel-inner::after {
-  display: block;
-  clear: both;
-  content: "";
+	display: block;
+	clear: both;
+	content: "";
 }
 
 .carousel-item {
@@ -6248,15 +6248,15 @@ a.close.disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .carousel-item {
-    transition: none;
-  }
+	.carousel-item {
+		transition: none;
+	}
 }
 
 .carousel-item.active,
 .carousel-item-next,
 .carousel-item-prev {
-  display: block;
+	display: block;
 }
 
 .carousel-item-next:not(.carousel-item-left),
@@ -6272,10 +6272,10 @@ a.close.disabled {
 }
 
 .carousel-fade .carousel-item {
-  opacity: 0;
-  transition-property: opacity;
-  -webkit-transform: none;
-  transform: none;
+	opacity: 0;
+	transition-property: opacity;
+	-webkit-transform: none;
+	transform: none;
 }
 
 .carousel-fade .carousel-item.active,
