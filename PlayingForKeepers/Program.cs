@@ -28,7 +28,7 @@ namespace PlayingForKeepers
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     var testUserPw = config["SeedUserPW"];
 
-                    SeedData.Initialize(services, testUserPw).Wait();
+                    //SeedData.Initialize(services, testUserPw).Wait();
                 }
                 catch (Exception ex)
                 {

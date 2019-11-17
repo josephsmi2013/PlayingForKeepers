@@ -54,7 +54,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
         #region OnPost method
-        //Submits the CreateLeague form data    
+        //Submits the JoinLeague form data    
         public async Task<IActionResult> OnPostJoinLeagueAsync(int leagueId)
         {
 
@@ -75,6 +75,35 @@ namespace PlayingForKeepers.Pages.Leagues
                 }
 
                 ModelState.AddModelError("", "League already joined");
+            }
+
+            return Page();
+        }
+        #endregion
+
+
+
+        #region OnPost method
+        //Submits the DeleteLeague form data    
+        public async Task<IActionResult> OnPostDeleteLeagueAsync(int leagueId)
+        {
+
+
+            // Settings
+            string returnPath = "./LeaguesIndex";
+            string userId = UserManager.GetUserId(User);
+
+
+            if (ModelState.IsValid)
+            {
+                bool success = await Context.DeleteLeague(leagueId);
+
+                if (success)
+                {
+                    return RedirectToPage(returnPath);
+                }
+
+                ModelState.AddModelError("", "League not found");
             }
 
             return Page();

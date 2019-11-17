@@ -39,8 +39,11 @@ namespace PlayingForKeepers.Models.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<FF_LeagueActivity>().HasNoKey();
+            modelBuilder.Entity<FF_LeagueActivity>().HasKey("LeagueActivityID");
+            modelBuilder.Entity<FF_Leagues>().HasKey("LeagueID");
+            modelBuilder.Entity<FF_LeagueTeams>().HasNoKey();
+            modelBuilder.Entity<FF_LeagueUsers>().HasNoKey();            
+            modelBuilder.Entity<FF_Teams>().HasKey("TeamID");            
 
         }
         #endregion
@@ -82,7 +85,7 @@ namespace PlayingForKeepers.Models.DB
 
 
         #region GeJoinedLeaguesAsync SP method
-        // Gets a list of leagues and returns to the caller
+        // Gets a list of leagues the user has joined and returns to the caller
         public async Task<List<FF_Leagues>> GetJoinedLeaguesAsync(string userId)
         {
             // Initialization.  
@@ -135,7 +138,7 @@ namespace PlayingForKeepers.Models.DB
 
 
         #region JoinLeague SP method  
-        // Adds a league and returns a bool to the caller 
+        // Adds a user to a league and returns a bool to the caller 
         public Task<bool> JoinLeague(int leagueId, string userId)
         {
 
@@ -169,8 +172,8 @@ namespace PlayingForKeepers.Models.DB
         #endregion
 
 
-        #region GetLeaguesAsync SP method
-        // Gets a list of leagues and returns to the caller
+        #region GetLeagueActivityAsync SP method
+        // Gets a list of league activity and returns to the caller
         public async Task<List<FF_LeagueActivity>> GetLeagueActivityAsync(int leagueId)
         {
             // Initialization.  
@@ -192,7 +195,203 @@ namespace PlayingForKeepers.Models.DB
             // Info.  
             return lst;
         }
-        #endregion  
+        #endregion
+
+
+
+        #region GetLeagueTeamsAsync SP method
+        // Gets a list of teams for a given league and returns to the caller
+        public async Task<List<FF_LeagueTeams>> GetLeagueTeamsAsync(int leagueId)
+        {
+            // Initialization.  
+            List<FF_LeagueTeams> lst = new List<FF_LeagueTeams>();
+
+            try
+            {
+                // Processing. 
+                SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+                string sqlQuery = "EXEC [dbo].[FF_GetLeagueTeams] " + "@LeagueId";
+
+                lst = await this.Set<FF_LeagueTeams>().FromSqlRaw(sqlQuery, inputParam1).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // Info.  
+            return lst;
+        }
+        #endregion
+
+
+
+        #region JoinTeam SP method  
+        // Adds a user to a given team in a league and returns a bool to the caller 
+        public Task<bool> JoinTeam(int teamId, string userId)
+        {
+
+            ////Initialize
+            bool outputParamValue;
+
+            try
+            {
+                SqlParameter inputParam1 = new SqlParameter("@TeamId", teamId.ToString());
+                SqlParameter inputParam2 = new SqlParameter("@UserId", userId);
+
+                SqlParameter outputParam1 = new SqlParameter("@OutParam", SqlDbType.Bit);
+                outputParam1.Direction = ParameterDirection.Output;
+
+                string sqlQuery = "EXEC [dbo].[FF_JoinTeam] " + "@TeamId" + "," + "@UserId" + "," + "@OutParam OUT";
+
+                Database.ExecuteSqlRaw(sqlQuery, inputParam1, inputParam2, outputParam1);
+                outputParamValue = (bool)outputParam1.Value;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Task.FromResult(outputParamValue);
+
+
+        }
+        #endregion
+
+
+
+        #region GetTeamsAsync SP method
+        // Gets a list of teams and returns to the caller
+        public async Task<List<FF_Teams>> GetTeamsAsync()
+        {
+            // Initialization.  
+            List<FF_Teams> lst = new List<FF_Teams>();
+
+            try
+            {
+                // Processing. 
+                string sqlQuery = "EXEC [dbo].[FF_GetTeams] ";
+
+                lst = await this.Set<FF_Teams>().FromSqlRaw(sqlQuery).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // Info.  
+            return lst;
+        }
+        #endregion
+
+
+
+        #region LeaveLeague SP method  
+        // Removes a user from a joined league and returns a bool to the caller 
+        public Task<bool> LeaveLeague(int leagueId, string userId)
+        {
+
+            ////Initialize
+            bool outputParamValue;
+
+            try
+            {
+                SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+                SqlParameter inputParam2 = new SqlParameter("@UserId", userId);
+
+                SqlParameter outputParam1 = new SqlParameter("@OutParam", SqlDbType.Bit);
+                outputParam1.Direction = ParameterDirection.Output;
+
+                string sqlQuery = "EXEC [dbo].[FF_LeaveLeague] " + "@LeagueId" + "," + "@UserId" + "," + "@OutParam OUT";
+
+                Database.ExecuteSqlRaw(sqlQuery, inputParam1, inputParam2, outputParam1);
+                outputParamValue = (bool)outputParam1.Value;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Task.FromResult(outputParamValue);
+
+
+        }
+        #endregion
+
+
+
+        #region DeleteLeague SP method  
+        // Delete a league from the system and returns a bool to the caller 
+        public Task<bool> DeleteLeague(int leagueId)
+        {
+
+            ////Initialize
+            bool outputParamValue;
+
+            try
+            {
+                SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+
+                SqlParameter outputParam1 = new SqlParameter("@OutParam", SqlDbType.Bit);
+                outputParam1.Direction = ParameterDirection.Output;
+
+                string sqlQuery = "EXEC [dbo].[FF_DeleteLeague] " + "@LeagueId" +"," + "@OutParam OUT";
+
+                Database.ExecuteSqlRaw(sqlQuery, inputParam1, outputParam1);
+                outputParamValue = (bool)outputParam1.Value;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Task.FromResult(outputParamValue);
+
+
+        }
+        #endregion
+
+
+
+        #region LeaveTeam SP method  
+        // Removes a user from a joined league and returns a bool to the caller 
+        public Task<bool> LeaveTeam(int teamId, string userId)
+        {
+
+            ////Initialize
+            bool outputParamValue;
+
+            try
+            {
+                SqlParameter inputParam1 = new SqlParameter("@TeamId", teamId.ToString());
+                SqlParameter inputParam2 = new SqlParameter("@UserId", userId);
+
+                SqlParameter outputParam1 = new SqlParameter("@OutParam", SqlDbType.Bit);
+                outputParam1.Direction = ParameterDirection.Output;
+
+                string sqlQuery = "EXEC [dbo].[FF_LeaveTeam] " + "@TeamId" + "," + "@UserId" + "," + "@OutParam OUT";
+
+                Database.ExecuteSqlRaw(sqlQuery, inputParam1, inputParam2, outputParam1);
+                outputParamValue = (bool)outputParam1.Value;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Task.FromResult(outputParamValue);
+
+
+        }
+        #endregion
 
     }
 }

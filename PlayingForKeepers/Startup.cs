@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PlayingForKeepers.Authorization;
 using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 
@@ -44,15 +43,7 @@ namespace PlayingForKeepers
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            // Authorization handlers.
-            services.AddScoped<IAuthorizationHandler,
-                                  LeaguesIsOwnerAuthHandler>();
 
-            services.AddSingleton<IAuthorizationHandler,
-                                  LeaguesAdministratorAuthHandler>();
-
-            services.AddSingleton<IAuthorizationHandler,
-                                  LeaguesManagerAuthHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

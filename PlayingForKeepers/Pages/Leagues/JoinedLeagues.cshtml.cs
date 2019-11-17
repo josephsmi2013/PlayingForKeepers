@@ -42,6 +42,34 @@ namespace PlayingForKeepers.Pages.Leagues
             return Page();
         }
         #endregion
+
+
+
+        #region OnPost method
+        //Submits the JoinedLeague form data    
+        public async Task<IActionResult> OnPostLeaveLeagueAsync(int leagueId)
+        {
+
+            // Settings
+            string returnPath = "./JoinedLeagues";
+            string UserId = UserManager.GetUserId(User);
+
+
+            if (ModelState.IsValid)
+            {
+                bool success = await Context.LeaveLeague(leagueId, UserId);
+
+                if (success)
+                {
+                    return RedirectToPage(returnPath);
+                }
+
+                ModelState.AddModelError("", "League not found");
+            }
+
+            return Page();
+        }
+        #endregion
     }
 
 }

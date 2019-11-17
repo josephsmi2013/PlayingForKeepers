@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlayingForKeepers.Models.DB;
 
 namespace PlayingForKeepers.Data.Migrations
 {
     [DbContext(typeof(PlayingForKeepersDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191111235940_TeamUsers")]
+    partial class TeamUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,6 +291,17 @@ namespace PlayingForKeepers.Data.Migrations
                     b.ToTable("FF_Leagues");
                 });
 
+            modelBuilder.Entity("PlayingForKeepers.Models.DB.Tables.FF_TeamUsers", b =>
+                {
+                    b.Property<int>("TeamID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("FF_TeamUsers");
+                });
+
             modelBuilder.Entity("PlayingForKeepers.Models.DB.Tables.FF_Teams", b =>
                 {
                     b.Property<int>("TeamID")
@@ -300,9 +313,6 @@ namespace PlayingForKeepers.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TeamOwnerID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TeamID");

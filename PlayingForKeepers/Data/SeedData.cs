@@ -1,143 +1,143 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PlayingForKeepers.Authorization;
-using PlayingForKeepers.Models;
-using PlayingForKeepers.Models.DB;
-using System;
-using System.Threading.Tasks;
+﻿//using Microsoft.AspNetCore.Identity;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.Extensions.DependencyInjection;
+//using PlayingForKeepers.Authorization;
+//using PlayingForKeepers.Models;
+//using PlayingForKeepers.Models.DB;
+//using System;
+//using System.Threading.Tasks;
 
-// dotnet aspnet-codegenerator razorpage -m Contact -dc ApplicationDbContext -udl -outDir Pages\Contacts --referenceScriptLibraries
+//// dotnet aspnet-codegenerator razorpage -m Contact -dc ApplicationDbContext -udl -outDir Pages\Contacts --referenceScriptLibraries
 
-namespace PlayingForKeepers.Data
-{
-    public static class SeedData
-    {
-        public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
-        {
-            using (var context = new PlayingForKeepersDbContext(
-                serviceProvider.GetRequiredService<DbContextOptions<PlayingForKeepersDbContext>>()))
-            {
-                // For sample purposes seed both with the same password.
-                // Password is set with the following:
-                // dotnet user-secrets set SeedUserPW <pw>
-                // The admin user can do anything
+//namespace PlayingForKeepers.Data
+//{
+//    public static class SeedData
+//    {
+//        public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
+//        {
+//            using (var context = new PlayingForKeepersDbContext(
+//                serviceProvider.GetRequiredService<DbContextOptions<PlayingForKeepersDbContext>>()))
+//            {
+//                // For sample purposes seed both with the same password.
+//                // Password is set with the following:
+//                // dotnet user-secrets set SeedUserPW <pw>
+//                // The admin user can do anything
 
-                var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
-                await EnsureRole(serviceProvider, adminID, Constants.LeaguesAdministratorRole);
+//                //var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@contoso.com");
+//                //await EnsureRole(serviceProvider, adminID, Constants.LeaguesAdministratorRole);
 
-                // allowed user can create and edit contacts that they create
-                var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
-                await EnsureRole(serviceProvider, managerID, Constants.LeaguesManagerRole);
+//                //// allowed user can create and edit contacts that they create
+//                //var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@contoso.com");
+//                //await EnsureRole(serviceProvider, managerID, Constants.LeaguesManagerRole);
 
-                SeedDB(context, adminID);
-            }
-        }
+//                //SeedDB(context, adminID);
+//            }
+//        }
 
 
-        private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
-                                            string testUserPw, string UserName)
-        {
-            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+//        private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
+//                                            string testUserPw, string UserName)
+//        {
+//            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-            var user = await userManager.FindByNameAsync(UserName);
-            if (user == null)
-            {
-                user = new ApplicationUser
-                {
-                    UserName = UserName,
-                    EmailConfirmed = true
-                };
-                await userManager.CreateAsync(user, testUserPw);
-            }
+//            var user = await userManager.FindByNameAsync(UserName);
+//            if (user == null)
+//            {
+//                user = new ApplicationUser
+//                {
+//                    UserName = UserName,
+//                    EmailConfirmed = true
+//                };
+//                await userManager.CreateAsync(user, testUserPw);
+//            }
 
-            if (user == null)
-            {
-                throw new Exception("The password is probably not strong enough!");
-            }
+//            if (user == null)
+//            {
+//                throw new Exception("The password is probably not strong enough!");
+//            }
 
-            return user.Id;
-        }
+//            return user.Id;
+//        }
 
-        private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
-                                                                      string uid, string role)
-        {
-            IdentityResult IR = null;
-            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+//        private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
+//                                                                      string uid, string role)
+//        {
+//            IdentityResult IR = null;
+//            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
-            if (roleManager == null)
-            {
-                throw new Exception("roleManager null");
-            }
+//            if (roleManager == null)
+//            {
+//                throw new Exception("roleManager null");
+//            }
 
-            if (!await roleManager.RoleExistsAsync(role))
-            {
-                IR = await roleManager.CreateAsync(new IdentityRole(role));
-            }
+//            if (!await roleManager.RoleExistsAsync(role))
+//            {
+//                IR = await roleManager.CreateAsync(new IdentityRole(role));
+//            }
 
-            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+//            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-            var user = await userManager.FindByIdAsync(uid);
+//            var user = await userManager.FindByIdAsync(uid);
 
-            if (user == null)
-            {
-                throw new Exception("The testUserPw password was probably not strong enough!");
-            }
+//            if (user == null)
+//            {
+//                throw new Exception("The testUserPw password was probably not strong enough!");
+//            }
 
-            IR = await userManager.AddToRoleAsync(user, role);
+//            IR = await userManager.AddToRoleAsync(user, role);
 
-            return IR;
-        }
+//            return IR;
+//        }
 
-        public static void SeedDB(PlayingForKeepersDbContext context, string adminID)
-        {
-            //if (context.FF_Leagues.Any())
-            //{
-            //    return;   // DB has been seeded
-            //}
+//        public static void SeedDB(PlayingForKeepersDbContext context, string adminID)
+//        {
+//            //if (context.FF_Leagues.Any())
+//            //{
+//            //    return;   // DB has been seeded
+//            //}
 
-            //context.FF_Leagues.AddRange(
-            //    new FF_Leagues
-            //    {                    
-            //        LeagueName = "League ABC",
-            //        LeagueTeamsUsed = 0,
-            //        LeagueTeamsPossible = 10,
-            //        LeagueOwnerID = adminID,
-            //        LeagueStatus = LeagueStatusList.Approved
+//            //context.FF_Leagues.AddRange(
+//            //    new FF_Leagues
+//            //    {                    
+//            //        LeagueName = "League ABC",
+//            //        LeagueTeamsUsed = 0,
+//            //        LeagueTeamsPossible = 10,
+//            //        LeagueOwnerID = adminID,
+//            //        LeagueStatus = LeagueStatusList.Approved
 
-            //    }
-            //    ,
-            //    new FF_Leagues
-            //    {
-            //        LeagueName = "League DEF",
-            //        LeagueTeamsUsed = 0,
-            //        LeagueTeamsPossible = 12,
-            //        LeagueOwnerID = adminID,
-            //        LeagueStatus = LeagueStatusList.Approved
+//            //    }
+//            //    ,
+//            //    new FF_Leagues
+//            //    {
+//            //        LeagueName = "League DEF",
+//            //        LeagueTeamsUsed = 0,
+//            //        LeagueTeamsPossible = 12,
+//            //        LeagueOwnerID = adminID,
+//            //        LeagueStatus = LeagueStatusList.Approved
 
-            //    }
-            //,
-            //new FF_Leagues
-            //{
-            //    LeagueName = "League JKL",
-            //    LeagueTeamsUsed = 0,
-            //    LeagueTeamsPossible = 10,
-            //    LeagueOwnerID = adminID,
-            //    LeagueStatus = LeagueStatusList.Rejected
+//            //    }
+//            //,
+//            //new FF_Leagues
+//            //{
+//            //    LeagueName = "League JKL",
+//            //    LeagueTeamsUsed = 0,
+//            //    LeagueTeamsPossible = 10,
+//            //    LeagueOwnerID = adminID,
+//            //    LeagueStatus = LeagueStatusList.Rejected
 
-            //},
-            //new FF_Leagues
-            //{
-            //    LeagueName = "League MNO",
-            //    LeagueTeamsUsed = 0,
-            //    LeagueTeamsPossible = 10,
-            //    LeagueOwnerID = adminID,
-            //    LeagueStatus = LeagueStatusList.Submitted
+//            //},
+//            //new FF_Leagues
+//            //{
+//            //    LeagueName = "League MNO",
+//            //    LeagueTeamsUsed = 0,
+//            //    LeagueTeamsPossible = 10,
+//            //    LeagueOwnerID = adminID,
+//            //    LeagueStatus = LeagueStatusList.Submitted
 
-            //}
-            //);
-            //context.SaveChanges();
-        }
+//            //}
+//            //);
+//            //context.SaveChanges();
+//        }
 
-    }
-}
+//    }
+//}

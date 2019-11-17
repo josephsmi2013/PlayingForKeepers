@@ -48,7 +48,7 @@
                     <tr>
                         <th scope="row" style="text-align: center;">
                             <a class="btn btn-secondary" asp-page="LeagueDetails" asp-route-leagueId="@Model.GetJoinedLeagues[i].LeagueID">Visit</a>
-                            <input class="btn btn-danger" asp-page-handler="RemoveJoinedLeague" asp-route-leagueId="@Model.GetJoinedLeagues[i].LeagueID" type="submit" value="Remove" />
+                            <input class="btn btn-danger" asp-page-handler="LeaveLeague" asp-route-leagueId="@Model.GetJoinedLeagues[i].LeagueID" type="submit" value="Leave" />
                         </th>
                         <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueID</td>
                         <td style="text-align: center;">@Model.GetJoinedLeagues[i].LeagueName</td>

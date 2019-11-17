@@ -46,6 +46,7 @@
                     <tr>
                         <th scope="row" style="text-align: center;">
                             <input asp-page-handler="JoinLeague" asp-route-leagueId="@Model.GetUnJoinedLeagues[i].LeagueID" type="submit" value="Join" class="btn btn-secondary" />
+                            <input asp-page-handler="DeleteLeague" asp-route-leagueId="@Model.GetUnJoinedLeagues[i].LeagueID" type="submit" value="Delete" class="btn btn-danger" />
                         </th>
                         <td style="text-align: center;">@Model.GetUnJoinedLeagues[i].LeagueID</td>
                         <td style="text-align: center;">@Model.GetUnJoinedLeagues[i].LeagueName</td>

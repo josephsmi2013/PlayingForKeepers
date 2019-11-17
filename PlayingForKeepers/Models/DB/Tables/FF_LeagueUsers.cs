@@ -1,8 +1,13 @@
-﻿namespace PlayingForKeepers.Models.DB.Tables
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PlayingForKeepers.Models.DB.Tables
 {
     public class FF_LeagueUsers
     {
-        public int LeagueId { get; set; }
+        [ForeignKey("LeagueID")]
+        public int LeagueID { get; set; }
+
+        [ForeignKey("UserId")]
         public string UserId { get; set; }
 
     }
