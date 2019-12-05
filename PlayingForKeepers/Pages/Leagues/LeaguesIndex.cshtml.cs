@@ -37,10 +37,11 @@ namespace PlayingForKeepers.Pages.Leagues
         public async Task<IActionResult> OnGetAsync()
         {
             string userId = UserManager.GetUserId(User);
-
+            //object GetSomething = this.Context.GetSP("FF_GetLeagues", 1037);
             GetLeagues = await this.Context.GetLeaguesAsync();
             GetJoinedLeagues = await this.Context.GetJoinedLeaguesAsync(userId);
             GetUnJoinedLeagues = GetLeagues.Except(GetJoinedLeagues).ToList();
+
 
             if (GetLeagues == null)
             {
@@ -67,7 +68,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.JoinLeague(leagueId, userId);
+                bool success = await Context.ExecuteSP("FF_JoinLeague", leagueId, userId);
 
                 if (success)
                 {
@@ -96,7 +97,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.DeleteLeague(leagueId);
+                bool success = await Context.ExecuteSP("FF_DeleteLeague", leagueId);
 
                 if (success)
                 {

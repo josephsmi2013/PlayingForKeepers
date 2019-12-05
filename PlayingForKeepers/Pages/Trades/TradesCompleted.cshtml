@@ -1,0 +1,45 @@
+﻿@page
+@model PlayingForKeepers.Pages.Trades.TradesCompletedModel
+@{
+    ViewData["Title"] = "TradesCompleted";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<h2>@Model.GetLeague[0].LeagueName</h2>
+<hr />
+
+@* Display tabbed navs HTML*@
+<div class="row">
+    <div class="col m-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Leagues/LeagueDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Leagues/LeagueActivity" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Activity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Leagues/LeagueRules" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Rules</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamCapitals" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Capital</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="TradeDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trade Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  asp-page="TradesPending" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trades Pending</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Trades Completed</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+

@@ -53,11 +53,13 @@ namespace PlayingForKeepers.Pages.Leagues
             int charCounter = UserManager.GetUserName(User).IndexOf("@");
             string leagueOwner = UserManager.GetUserName(User).Substring(0, charCounter);
 
-            LeagueStatus leagueStatus = LeagueStatus.Approved;
+            int leagueStatus = (int)LeagueStatus.Approved;
+
+
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.AddLeague(leagueName, legueTeamsPossible, leagueOwner, leagueStatus);
+                bool success = await Context.ExecuteSP("FF_AddLeague", leagueName, legueTeamsPossible, leagueOwner, leagueStatus);
 
                 if (success)
                 {

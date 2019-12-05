@@ -18,11 +18,8 @@ namespace PlayingForKeepers.Pages.Leagues
     public class LeagueDetailsModel : DI_BasePageModel
     {
         #region Public Properties  
-        public int LeagueID { get; set; }
-        public List<FF_LeagueActivity> GetLeagueActivity { get; set; }
-        public List<FF_LeagueTeams> GetLeagueTeams { get; set; }        
+        public List<FF_Leagues> GetLeague { get; set; }
         public List<FF_Teams> GetTeams { get; set; }
-        public List<FF_Teams> GetTeamsFiltered { get; set; }
         #endregion
 
 
@@ -40,29 +37,19 @@ namespace PlayingForKeepers.Pages.Leagues
         //Get LeagueTeams, TeamUsers, and LeagueActivity into a list and returns to the page
         public async Task<IActionResult> OnGetAsync(int leagueId)
         {
-            LeagueID = leagueId;
-            GetLeagueActivity = await Context.GetLeagueActivityAsync(LeagueID);
-            GetLeagueTeams = await Context.GetLeagueTeamsAsync(LeagueID);            
-            GetTeams = await Context.GetTeamsAsync();
+            GetLeague = await Context.GetLeaguesAsync(leagueId);         
+            GetTeams = await Context.GetTeamsAsync(leagueId);
 
-            GetTeamsFiltered = (from t in GetTeams
-                                join lt in GetLeagueTeams
-                                on t.TeamID equals lt.TeamID
-                                select t).ToList();
 
-            if (GetLeagueActivity == null)
+            if (GetLeague == null)
             {
-                ViewData["ErrorMessage"] = $"No league activity has been found";
+                ViewData["ErrorMessage"] = $"League not found";
             }
 
-            if (GetLeagueTeams == null)
-            {
-                ViewData["ErrorMessage"] = $"No league teams have been found";
-            }
 
             if (GetTeams == null)
             {
-                ViewData["ErrorMessage"] = $"No team definitions have been found";
+                ViewData["ErrorMessage"] = $"League teams not found";
             }
 
 
@@ -89,7 +76,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.JoinTeam(teamId, userId);
+                bool success = await Context.ExecuteSP("FF_JoinTeam", teamId, userId);
 
                 if (success)
                 {
@@ -119,7 +106,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.LeaveTeam(teamId, userId);
+                bool success = await Context.ExecuteSP("FF_LeaveTeam", teamId, userId);
 
                 if (success)
                 {

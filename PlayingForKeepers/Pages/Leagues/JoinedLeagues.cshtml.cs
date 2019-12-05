@@ -57,7 +57,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             if (ModelState.IsValid)
             {
-                bool success = await Context.LeaveLeague(leagueId, UserId);
+                bool success = await Context.ExecuteSP("FF_LeaveLeague", leagueId, UserId);
 
                 if (success)
                 {

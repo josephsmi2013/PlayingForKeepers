@@ -1,0 +1,76 @@
+﻿@page
+@model PlayingForKeepers.Pages.Leagues.LeagueActivityModel
+@{
+    ViewData["Title"] = "LeagueActivity";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.GetLeague[0].LeagueName</h2>
+<hr />
+
+@* Display tabbed navs HTML*@
+<div class="row">
+    <div class="col m-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link"  asp-page="LeagueDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">League Activity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="LeagueRules" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Rules</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamCapitals" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Capital</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradeDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trade Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradesPending" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trades Pending</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradesCompleted" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trades Completed</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+
+
+@* HTML to hold the League Activity info*@
+<div class="container">
+    <div class="row">
+        <div class="col-lg p-0">
+            <form method="post">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="text-align: center;">Description</th>
+                                    <th scope="col" style="text-align: center;">Date</th>
+                                    <th scope="col" style="text-align: center;">Type</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+</div>
+            </form>
+        </div>
+    </div>
+</div>

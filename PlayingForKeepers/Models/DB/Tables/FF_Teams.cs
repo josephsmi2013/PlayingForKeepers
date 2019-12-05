@@ -15,5 +15,8 @@ namespace PlayingForKeepers.Models.DB.Tables
         public string TeamName { get; set; }
         public string TeamAbbr { get; set; }
         public string TeamOwnerID { get; set; }
+
+        [ForeignKey("LeagueID")]
+        public int LeagueID { get; set; }
     }
 }

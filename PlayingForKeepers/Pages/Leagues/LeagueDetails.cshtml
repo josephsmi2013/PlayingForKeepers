@@ -5,46 +5,87 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-    <h2>Welcome</h2>
-    <hr />
+<h2>@Model.GetLeague[0].LeagueName</h2>
+<hr />
 
+@* Display tabbed navs HTML*@
+<div class="row">
+    <div class="col m-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">League Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="LeagueActivity" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Activity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="LeagueRules" asp-route-leagueId="@Model.GetLeague[0].LeagueID">League Rules</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Teams/TeamCapitals" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Team Capital</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradeDetails" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trade Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradesPending" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trades Pending</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="../Trades/TradesCompleted" asp-route-leagueId="@Model.GetLeague[0].LeagueID">Trades Completed</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+
+
+
+@* HTML to hold the league team info*@
 <div class="container">
     <div class="row">
-
-        @* HTML to hold the league team info*@
-        <div class="col-lg-6">
+        <div class="col-lg p-0">
             <form method="post">
                 <div class="table-responsive">
                     <table class="table table-sm table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th scope="col" style="text-align: center;">Action</th>
-                                <th scope="col" style="text-align: center;">Owner</th>
+                                <th scope="col" style="text-align: center;">Team Owner</th>
                                 <th scope="col" style="text-align: center;">Team Name</th>
                                 <th scope="col" style="text-align: center;">Team Abbr</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @for (int i = 0; i < Model.GetTeamsFiltered.Count; i++)
+                            @for (int i = 0; i < Model.GetTeams.Count; i++)
                             {
                                 <tr>
                                     <th scope="row" style="text-align: center;">
 
-                                        @if (string.IsNullOrEmpty(Model.GetTeamsFiltered[i].TeamOwnerID))
+                                        @if (string.IsNullOrEmpty(Model.GetTeams[i].TeamOwnerID))
                                         {
-                                            <input asp-page-handler="JoinTeam" asp-route-teamId="@Model.GetTeamsFiltered[i].TeamID" asp-route-leagueId="@Model.LeagueID" type="submit" value="Take" class="btn btn-primary" />
+                                            <input asp-page-handler="JoinTeam" asp-route-teamId="@Model.GetTeams[i].TeamID" asp-route-leagueId="@Model.GetLeague[0].LeagueID" type="submit" value="Take" class="btn btn-primary" />
                                         }
                                         else
                                         {
-                                            <a disabled class="btn btn-secondary">Owned</a>
-                                            <input class="btn btn-danger" asp-page-handler="LeaveTeam" asp-route-teamId="@Model.GetTeamsFiltered[i].TeamID" asp-route-leagueId="@Model.LeagueID" type="submit" value="Leave" />
+                                            //if (Model.GetTeamsFiltered[i].TeamOwnerID = )
+                                            //{
+                                            <input class="btn btn-danger" asp-page-handler="LeaveTeam" asp-route-teamId="@Model.GetTeams[i].TeamID" asp-route-leagueId="@Model.GetLeague[0].LeagueID" type="submit" value="Leave" />
+                                            //}
+                                            //else
+                                            //{
+                                            <button type="button" class="btn btn-secondary" disabled>Owned</button>
+                                            //}
                                         }
 
                                     </th>
-                                    <td style="text-align: center;">@Model.GetTeamsFiltered[i].TeamOwnerID </td>
-                                    <td style="text-align: center;">@Model.GetTeamsFiltered[i].TeamName</td>
-                                    <td style="text-align: center;">@Model.GetTeamsFiltered[i].TeamAbbr </td>
+                                    <td style="text-align: center;">@Model.GetTeams[i].TeamOwnerID </td>
+                                    <td style="text-align: center;"><input asp-for=@Model.GetTeams[i].TeamName class="form-control" /></td>
+                                    <td style="text-align: center;"><input asp-for=@Model.GetTeams[i].TeamAbbr class="form-control" /></td>
                                 </tr>
                             }
                         </tbody>
@@ -52,33 +93,5 @@
                 </div>
             </form>
         </div>
-
-        @* HTML to hold the League Activity info*@
-        <div class="col-lg-6">
-            <div class="table-responsive">
-                <table class="table table-sm table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="text-align: center;">Activity Description</th>
-                            <th scope="col" style="text-align: center;">Activity Date</th>
-                            <th scope="col" style="text-align: center;">Activity Type</th>
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
-                        {
-                            <tr>
-                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
-                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
-                                <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 </div>
