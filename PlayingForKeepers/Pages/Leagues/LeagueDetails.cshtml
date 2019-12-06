@@ -40,8 +40,8 @@
     </div>
 </div>
 
-<hr />
 
+<hr />
 
 
 @* HTML to hold the league team info*@
@@ -66,26 +66,25 @@
                                 <tr>
                                     <th scope="row" style="text-align: center;">
 
-                                        @if (string.IsNullOrEmpty(Model.GetTeams[i].TeamOwnerID))
+                                        @if (Model.GetTeams[i].TeamAction == 'L')
                                         {
-                                            <input asp-page-handler="JoinTeam" asp-route-teamId="@Model.GetTeams[i].TeamID" asp-route-leagueId="@Model.GetLeague[0].LeagueID" type="submit" value="Take" class="btn btn-primary" />
-                                        }
-                                        else
-                                        {
-                                            //if (Model.GetTeamsFiltered[i].TeamOwnerID = )
-                                            //{
                                             <input class="btn btn-danger" asp-page-handler="LeaveTeam" asp-route-teamId="@Model.GetTeams[i].TeamID" asp-route-leagueId="@Model.GetLeague[0].LeagueID" type="submit" value="Leave" />
-                                            //}
-                                            //else
-                                            //{
-                                            <button type="button" class="btn btn-secondary" disabled>Owned</button>
-                                            //}
+                                        }
+
+                                        else if (Model.GetTeams[i].TeamAction == 'O')
+                                        {
+                                        <button type="button" class="btn btn-secondary" disabled>Owned</button>
+                                        }
+
+                                        else if (Model.GetTeams[i].TeamAction == 'T' && !(Model.GetTeams[0].TeamAction == 'L'))
+                                        {
+                                        <input asp-page-handler="JoinTeam" asp-route-teamId="@Model.GetTeams[i].TeamID" asp-route-leagueId="@Model.GetLeague[0].LeagueID" type="submit" value="Take" class="btn btn-primary" />
                                         }
 
                                     </th>
                                     <td style="text-align: center;">@Model.GetTeams[i].TeamOwnerID </td>
-                                    <td style="text-align: center;"><input asp-for=@Model.GetTeams[i].TeamName class="form-control" /></td>
-                                    <td style="text-align: center;"><input asp-for=@Model.GetTeams[i].TeamAbbr class="form-control" /></td>
+                                    <td style="text-align: center;">@Model.GetTeams[i].TeamName</td>
+                                    <td style="text-align: center;">@Model.GetTeams[i].TeamAbbr</td>
                                 </tr>
                             }
                         </tbody>

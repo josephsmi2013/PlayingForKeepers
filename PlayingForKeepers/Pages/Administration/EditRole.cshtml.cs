@@ -46,7 +46,7 @@ namespace PlayingForKeepers.Pages.Administration
                 RoleId = role.Id;
                 RoleName = role.Name;
 
-                foreach (var user in UserManager.Users)
+                foreach (ApplicationUser user in UserManager.Users)
                 {
                     if (await UserManager.IsInRoleAsync(user, role.Name))
                     {

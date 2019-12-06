@@ -19,7 +19,10 @@ namespace PlayingForKeepers.Pages.Leagues
     {
         #region Public Properties  
         public List<FF_Leagues> GetLeague { get; set; }
-        public List<FF_Teams> GetTeams { get; set; }
+        public List<FF_Teams> GetTeams { get; set; }            
+        public string CurrentUser { get; set; }
+
+        public List<string> TeamsData { get; set; }
         #endregion
 
 
@@ -39,7 +42,7 @@ namespace PlayingForKeepers.Pages.Leagues
         {
             GetLeague = await Context.GetLeaguesAsync(leagueId);         
             GetTeams = await Context.GetTeamsAsync(leagueId);
-
+            CurrentUser = User.Identity.Name;
 
             if (GetLeague == null)
             {
@@ -52,9 +55,28 @@ namespace PlayingForKeepers.Pages.Leagues
                 ViewData["ErrorMessage"] = $"League teams not found";
             }
 
+            //Defines the actions a user can take when claiming a team (T = Take, L = Leave, O = Owned)
+            for (int i = 0; i < GetTeams.Count; i++)
+            {
+                if (string.IsNullOrEmpty(GetTeams[i].TeamOwnerID))
+                {
+                    GetTeams[i].TeamAction = 'T';
+                }
 
+                else if (CurrentUser == GetTeams[i].TeamOwnerID)
+                {
+                    GetTeams[i].TeamAction = 'L';
+                }
 
+                else
+                {
+                    GetTeams[i].TeamAction = 'O';
+                }
+                
+            }
 
+            //Sorts the teams so the current users team is always on top
+            GetTeams = GetTeams.OrderBy(o => o.TeamAction).ToList();
 
             return Page();
         }

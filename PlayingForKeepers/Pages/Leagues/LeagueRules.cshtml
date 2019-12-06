@@ -43,4 +43,34 @@
 <hr />
 
 
+@* HTML to hold the League Activity info*@
+<div class="container">
+    <div class="row">
+        <div class="col-lg p-0">
+            <form method="post">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center;">Rule Description</th>
+                                <th scope="col" style="text-align: center;">Rule Created Date</th>
+                            </tr>
+                        </thead>
+
+                        @*<tbody>
+                            @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                            {
+                                <tr>
+                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
+                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
+                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                                </tr>
+                            }
+                        </tbody>*@
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 

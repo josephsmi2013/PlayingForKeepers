@@ -14,8 +14,12 @@ namespace PlayingForKeepers.Pages.Shared
 
         protected RoleManager<IdentityRole> RoleManager { get; }
 
-        public DI_BasePageModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base()
+        public DI_BasePageModel(
+               PlayingForKeepersDbContext context, 
+               IAuthorizationService authorizationService, 
+               UserManager<ApplicationUser> userManager, 
+               RoleManager<IdentityRole> roleManager
+            ): base()
         {
             Context = context;
             AuthorizationService = authorizationService;

@@ -16,7 +16,11 @@ namespace PlayingForKeepers.Models.DB.Tables
         public string TeamAbbr { get; set; }
         public string TeamOwnerID { get; set; }
 
+        [NotMapped]
+        public char TeamAction { get; set; }
+
         [ForeignKey("LeagueID")]
         public int LeagueID { get; set; }
+
     }
 }
