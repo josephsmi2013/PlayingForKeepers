@@ -7,6 +7,7 @@ using PlayingForKeepers.Models.DB.Tables;
 using PlayingForKeepers.Pages.Shared;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Leagues
@@ -24,8 +25,8 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
         #region Constructor method
-        public LeaguesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        public LeaguesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion

@@ -6,6 +6,7 @@ using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
@@ -19,9 +20,9 @@ namespace PlayingForKeepers.Pages.Administration
         #endregion
 
 
-        #region contructor method
-        public RolesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        #region Constructor method
+        public RolesIndexModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion

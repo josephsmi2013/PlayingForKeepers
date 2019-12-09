@@ -5,6 +5,7 @@ using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
@@ -20,9 +21,9 @@ namespace PlayingForKeepers.Pages.Administration
         public string RoleId { get; set; }
 
 
-        #region contructor method
-        public DeleteUserRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        #region Constructor method
+        public DeleteUserRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion
@@ -80,6 +81,7 @@ namespace PlayingForKeepers.Pages.Administration
                     {
                         if (IsSelected[i])
                         {
+                            
                             ApplicationUser user = await UserManager.FindByIdAsync(GetUsers[i].Id);
                             IdentityResult result = await UserManager.RemoveFromRoleAsync(user, role.Name);
 

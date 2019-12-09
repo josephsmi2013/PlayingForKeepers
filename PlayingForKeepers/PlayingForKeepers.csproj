@@ -12,6 +12,8 @@
     <Compile Remove="Data\Migrations\20191111002616_LeagueActivity.Designer.cs" />
     <Compile Remove="Data\Migrations\20191117195945_removeLeagueTeams.cs" />
     <Compile Remove="Data\Migrations\20191117195945_removeLeagueTeams.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191206035309_LeagueRules.cs" />
+    <Compile Remove="Data\Migrations\20191206035309_LeagueRules.Designer.cs" />
   </ItemGroup>
 
 

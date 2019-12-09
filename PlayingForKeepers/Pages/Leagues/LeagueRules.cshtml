@@ -52,21 +52,24 @@
                     <table class="table table-sm table-striped table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th scope="col" style="text-align: center;">Rule ID</th>
                                 <th scope="col" style="text-align: center;">Rule Description</th>
                                 <th scope="col" style="text-align: center;">Rule Created Date</th>
+                                <th scope="col" style="text-align: center;">Rule Modified Date</th>
                             </tr>
                         </thead>
 
-                        @*<tbody>
-                            @for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                        <tbody>
+                            @for (int i = 0; i < Model.GetLeagueRules.Count; i++)
                             {
-                                <tr>
-                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
-                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
-                                    <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
-                                </tr>
+                            <tr>
+                                <td style="text-align: center;">@Model.GetLeagueRules[i].LeagueRuleID</td>
+                                <td style="text-align: center;">@Model.GetLeagueRules[i].LeagueRuleDescription</td>
+                                <td style="text-align: center;">@Model.GetLeagueRules[i].LeagueRuleCreatedDate.ToString("MMM yyyy") </td>
+                                <td style="text-align: center;">@Model.GetLeagueRules[i].LeagueRuleModifiedDate.ToString("MMM yyyy") </td>
+                            </tr>
                             }
-                        </tbody>*@
+                        </tbody>
                     </table>
                 </div>
             </form>

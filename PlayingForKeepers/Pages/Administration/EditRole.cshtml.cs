@@ -5,6 +5,7 @@ using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Administration
@@ -23,8 +24,8 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region Constructor method
-        public EditRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        public EditRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion

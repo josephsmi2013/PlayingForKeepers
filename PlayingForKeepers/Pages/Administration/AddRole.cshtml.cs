@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Pages.Shared;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 
@@ -20,8 +21,8 @@ namespace PlayingForKeepers.Pages.Administration
 
 
         #region Constructor method
-        public AddRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        public AddRoleModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion

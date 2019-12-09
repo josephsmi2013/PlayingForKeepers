@@ -39,6 +39,7 @@ namespace PlayingForKeepers.Models.DB
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<FF_LeagueActivity>().HasKey("LeagueActivityID");
+            modelBuilder.Entity<FF_LeagueRules>().HasKey("LeagueRuleID");
             modelBuilder.Entity<FF_Leagues>().HasKey("LeagueID");
             modelBuilder.Entity<FF_LeagueUsers>().HasNoKey();            
             modelBuilder.Entity<FF_Teams>().HasKey("TeamID");
@@ -188,9 +189,36 @@ namespace PlayingForKeepers.Models.DB
 
 
 
+        #region GetLeagueRulesAsync SP method
+        // Gets a list of league rules and returns to the caller
+        public async Task<List<FF_LeagueRules>> GetLeagueRulesAsync(int leagueId)
+        {
+            // Initialization.  
+            List<FF_LeagueRules> lst = new List<FF_LeagueRules>();
+
+            try
+            {
+                // Processing. 
+                SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+                string sqlQuery = "EXEC [dbo].[FF_GetLeagueRules] " + "@LeagueId";
+
+                lst = await this.Set<FF_LeagueRules>().FromSqlRaw(sqlQuery, inputParam1).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // Info.  
+            return lst;
+        }
+        #endregion
+
+
+
         #region GetTeamsAsync SP method
         // Gets a list of teams and returns to the caller
-        public async Task<List<FF_Teams>> GetTeamsAsync(int leagueId = 0)
+        public async Task<List<FF_Teams>> GetTeamsAsync(int leagueId = 0, string userName = "")
         {
             // Initialization.  
             List<FF_Teams> lst = new List<FF_Teams>();
@@ -198,16 +226,23 @@ namespace PlayingForKeepers.Models.DB
             try
             {
                 // Processing.
-                if (leagueId == 0)
+                if (leagueId == 0 && userName == "")
                 {
                     string sqlQuery = "EXEC [dbo].[FF_GetTeams] ";
                     lst = await this.Set<FF_Teams>().FromSqlRaw(sqlQuery).ToListAsync();
                 }
-                else
+                else if (userName == "")
                 {
                     SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
                     string sqlQuery = "EXEC [dbo].[FF_GetTeams] " + "@LeagueId";
                     lst = await this.Set<FF_Teams>().FromSqlRaw(sqlQuery, inputParam1).ToListAsync();
+                }
+                else
+                {
+                    SqlParameter inputParam1 = new SqlParameter("@LeagueId", leagueId.ToString());
+                    SqlParameter inputParam2 = new SqlParameter("@UserName", userName);
+                    string sqlQuery = "EXEC [dbo].[FF_GetTeams] " + "@LeagueId" + ","+ "@UserName";
+                    lst = await this.Set<FF_Teams>().FromSqlRaw(sqlQuery, inputParam1, inputParam2).ToListAsync();
                 }
 
 

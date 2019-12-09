@@ -42,3 +42,59 @@
 
 <hr />
 
+@* HTML to hold the Team Roster info*@
+<div class="row">
+    <div class="col-md-4">
+        <form asp-page-handler="UpdateTeam" asp-route-teamId="GetTeam[0].TeamID" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GetTeam[0].TeamName" class="control-label"></label>
+                <input asp-for="GetTeam[0].TeamName" class="form-control" />
+                <span asp-validation-for="GetTeam[0].TeamName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GetTeam[0].TeamAbbr" class="control-label"></label>
+                <input asp-for="GetTeam[0].TeamAbbr" class="form-control" />
+                <span asp-validation-for="GetTeam[0].TeamAbbr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Team" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+@* HTML to hold the Team Roster info*@
+<div class="container">
+    <div class="row">
+        <div class="col-lg p-0">
+            <form method="post">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center;">Player Name</th>
+                                <th scope="col" style="text-align: center;">Player Injury Status</th>
+                                <th scope="col" style="text-align: center;">Player Season Outlook</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @*@for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
+                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

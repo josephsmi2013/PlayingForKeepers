@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
+using System;
 
 namespace PlayingForKeepers
 {
@@ -41,6 +42,11 @@ namespace PlayingForKeepers
                     .Build();
 
                 config.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddHttpClient("ESPN", c =>
+            {
+                c.BaseAddress = new Uri("http://fantasy.espn.com/");
             });
 
 

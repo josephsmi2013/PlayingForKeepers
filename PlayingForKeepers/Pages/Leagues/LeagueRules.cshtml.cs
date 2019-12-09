@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +18,14 @@ namespace PlayingForKeepers.Pages.Leagues
     {
         #region Public Properties  
         public List<FF_Leagues> GetLeague { get; set; }
+        public List<FF_LeagueRules> GetLeagueRules { get; set; }
         #endregion
 
 
 
         #region Constructor method
-        public LeagueRulesModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        public LeagueRulesModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion
@@ -35,12 +37,17 @@ namespace PlayingForKeepers.Pages.Leagues
         public async Task<IActionResult> OnGetAsync(int leagueId)
         {
             GetLeague = await Context.GetLeaguesAsync(leagueId);
-
+            GetLeagueRules = await Context.GetLeagueRulesAsync(leagueId);
 
 
             if (GetLeague == null)
             {
                 ViewData["ErrorMessage"] = $"League not found";
+            }
+
+            if (GetLeagueRules == null)
+            {
+                ViewData["ErrorMessage"] = $"League rules not found";
             }
 
 

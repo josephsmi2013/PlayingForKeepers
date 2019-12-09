@@ -5,6 +5,7 @@ using PlayingForKeepers.Models;
 using PlayingForKeepers.Models.DB;
 using PlayingForKeepers.Models.DB.Tables;
 using PlayingForKeepers.Pages.Shared;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayingForKeepers.Pages.Leagues
@@ -20,8 +21,8 @@ namespace PlayingForKeepers.Pages.Leagues
 
 
         #region Constructor method
-        public AddLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-            : base(context, authorizationService, userManager, roleManager)
+        public AddLeagueModel(PlayingForKeepersDbContext context, IAuthorizationService authorizationService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory)
+            : base(context, authorizationService, userManager, roleManager, clientFactory)
         {
         }
         #endregion
@@ -49,7 +50,7 @@ namespace PlayingForKeepers.Pages.Leagues
 
             string leagueName = AddLeague.LeagueName;
             int legueTeamsPossible = AddLeague.LeagueTeamsPossible;
-
+         
             int charCounter = UserManager.GetUserName(User).IndexOf("@");
             string leagueOwner = UserManager.GetUserName(User).Substring(0, charCounter);
 
