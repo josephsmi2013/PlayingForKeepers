@@ -21,7 +21,7 @@ namespace PlayingForKeepers.Pages.Teams
         #region Public Properties  
         public List<FF_Leagues> GetLeague { get; set; }
         public List<FF_Teams> GetTeam { get; set; }
-        public object GetESPNRoster { get; set; }
+        public ESPNRoster GetESPNRoster { get; set; }
         #endregion
 
 
@@ -41,12 +41,6 @@ namespace PlayingForKeepers.Pages.Teams
         {
             GetLeague = await Context.GetLeaguesAsync(leagueId);
             GetTeam = await Context.GetTeamsAsync(leagueId, UserManager.GetUserId(User));
-            GetESPNRoster = new object();
-
-            string baseURL = HTTPURI + "2019/segments/0/leagues/584314?forTeamId=2&scoringPeriodId=13&view=mRoster";
-            var request = new HttpRequestMessage(HttpMethod.Get, baseURL);
-            var webClient = ClientFactory.CreateClient("ESPN");
-            var response = await webClient.SendAsync(request);
 
             if (GetLeague == null)
             {
@@ -58,12 +52,17 @@ namespace PlayingForKeepers.Pages.Teams
                 ViewData["ErrorMessage"] = $"Team not found";
             }
 
+
+
+            string baseURL = HTTPURI + "2019/segments/0/leagues/584314?forTeamId=2&scoringPeriodId=13&view=mRoster";
+            var request = new HttpRequestMessage(HttpMethod.Get, baseURL);
+            var webClient = ClientFactory.CreateClient("ESPN");
+            var response = await webClient.SendAsync(request);
+
             if (response.IsSuccessStatusCode)
             {
                 var JsonString = await response.Content.ReadAsStringAsync();
-                var JsonObject = JsonConvert.DeserializeObject<ESPNRoster>(JsonString);
-
-                GetESPNRoster = JsonObject;
+                GetESPNRoster = JsonConvert.DeserializeObject<ESPNRoster>(JsonString);
             }
 
 

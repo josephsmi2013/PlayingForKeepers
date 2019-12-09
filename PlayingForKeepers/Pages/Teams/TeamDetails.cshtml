@@ -82,14 +82,14 @@
                         </thead>
 
                         <tbody>
-                            @*@for (int i = 0; i < Model.GetLeagueActivity.Count; i++)
+                            @for (int i = 0; i < Model.GetESPNRoster.teams[0].roster.entries.Count; i++)
                                 {
                                     <tr>
-                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDescription</td>
-                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityDate </td>
-                                        <td style="text-align: center;">@Model.GetLeagueActivity[i].LeagueActivityType </td>
+                                        <td style="text-align: center;">@Model.GetESPNRoster.teams[0].roster.entries[i].playerPoolEntry.player.fullName</td>
+                                        <td style="text-align: center;">@Model.GetESPNRoster.teams[0].roster.entries[i].playerPoolEntry.player.injuryStatus </td>
+                                        <td style="text-align: center;">@Model.GetESPNRoster.teams[0].roster.entries[i].playerPoolEntry.player.seasonOutlook</td>
                                     </tr>
-                                }*@
+                                }
                         </tbody>
                     </table>
                 </div>
